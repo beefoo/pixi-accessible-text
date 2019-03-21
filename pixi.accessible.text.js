@@ -61,13 +61,15 @@ class AccessibleText extends PIXI.Text {
     var anchorY = this.anchor.y;
     if (anchorX > 0) {
       // console.log(x, this.el.offsetWidth)
-      x -= this.el.offsetWidth * anchorX;
+      x -= this.width * anchorX;
     }
     if (anchorY > 0) {
       // console.log(y, this.el.offsetHeight)
-      y -= this.el.offsetHeight * anchorY;
+      y -= this.height * anchorY;
     }
     this.el.style.transform = "translate3d("+x+"px, "+y+"px, 0)";
+    if (anchorX===0.5) this.el.style.textAlign = "center";
+    if (anchorX>=1.0) this.el.style.textAlign = "right";
   }
 
   updateStyleAttributes() {
@@ -95,7 +97,7 @@ class AccessibleText extends PIXI.Text {
       );
     } else styles.push(["white-space", pstyle._whiteSpace]);
 
-    if (pstyle._lineHeight) styles.push(["line-height", pstyle._lineHeight]);
+    if (pstyle._lineHeight) styles.push(["line-height", pstyle._lineHeight+"px"]);
     if (pstyle._letterSpacing) styles.push(["letter-spacing", pstyle._letterSpacing]);
 
     styles = styles.map(function callback(tuple) { return tuple.join(": "); });
@@ -121,6 +123,14 @@ class AccessibleText extends PIXI.Text {
     this.updatePosition();
     this.el.innerHTML = this.text;
     this.dirty = false;
+  }
+
+  get height() {
+    return this.el.offsetHeight;
+  }
+
+  get width() {
+    return this.el.offsetWidth;
   }
 
 }
