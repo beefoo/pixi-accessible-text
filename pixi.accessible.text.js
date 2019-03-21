@@ -119,6 +119,7 @@ class AccessibleText extends PIXI.Text {
 
     if (styleChanged) this.updateStyleAttributes();
     this.updatePosition();
+    this.el.innerHTML = this.text;
     this.dirty = false;
   }
 
