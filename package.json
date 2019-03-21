@@ -1,0 +1,17 @@
+{
+  "name": "pixi-accessible-text",
+  "version": "0.0.1",
+  "description": "A simple plugin for making Pixi JS text accessible",
+  "author": "Brian Foo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beefoo/pixi-accessible-text.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "express": "^4.16.4"
+  }
+}
