@@ -54,14 +54,31 @@ class AccessibleText extends PIXI.Text {
     // console.log(textCanvas.offsetWidth, textCanvas.offsetHeight)
   }
 
-  updateStyleAttributes() {
-    var pstyle = this._style;
+  updatePosition(){
     var x = this.x;
     var y = this.y;
+    var anchorX = this.anchor.x;
+    var anchorY = this.anchor.y;
+    if (anchorX > 0) {
+      // console.log(x, this.el.offsetWidth)
+      x -= this.el.offsetWidth * anchorX;
+    }
+    if (anchorY > 0) {
+      // console.log(y, this.el.offsetHeight)
+      y -= this.el.offsetHeight * anchorY;
+    }
+    this.el.style.transform = "translate3d("+x+"px, "+y+"px, 0)";
+  }
+
+  updateStyleAttributes() {
+    var pstyle = this._style;
     var alpha = this.alpha;
 
     // console.log(pstyle);
     var styles = [
+      ["position", "absolute"],
+      ["top", 0],
+      ["left", 0],
       ["color", pstyle._fill],
       ["font-family", pstyle._fontFamily],
       ["font-size", pstyle._fontSize+"px"],
@@ -69,8 +86,7 @@ class AccessibleText extends PIXI.Text {
       ["font-weight", pstyle._fontWeight],
       ["opacity", alpha],
       ["padding", pstyle._padding],
-      ["text-align", pstyle._align],
-      ["transform", "translate3d("+x+"px, "+y+"px, 0)"]
+      ["text-align", pstyle._align]
     ];
     if (pstyle._wordWrap) {
       styles.push(
@@ -90,9 +106,10 @@ class AccessibleText extends PIXI.Text {
   updateText(respectDirty) {
     // PIXI.Text.prototype.updateText.call(this, respectDirty);
     var style = this._style;
+    var styleChanged = (this.localStyleID !== style.styleID);
 
     // check if style has changed..
-    if (this.localStyleID !== style.styleID) {
+    if (styleChanged) {
       this.dirty = true;
       this.localStyleID = style.styleID;
     }
@@ -100,7 +117,8 @@ class AccessibleText extends PIXI.Text {
     // don't do anything if nothing has changed
     if (!this.dirty && respectDirty) return;
 
-    this.updateStyleAttributes();
+    if (styleChanged) this.updateStyleAttributes();
+    this.updatePosition();
     this.dirty = false;
   }
 

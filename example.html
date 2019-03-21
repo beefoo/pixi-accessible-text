@@ -35,6 +35,7 @@
     app.stage.addChild(basicText);
 
     var style = new PIXI.TextStyle({
+        align: 'center',
         fontFamily: 'Arial',
         fontSize: 36,
         fontStyle: 'italic',
@@ -45,8 +46,9 @@
     });
 
     var richText = new AccessibleText(app.view, 'Rich text with a lot of options and across multiple lines', style);
-    richText.x = 30;
-    richText.y = 180;
+    richText.x = 400;
+    richText.y = 300;
+    richText.anchor.set(0.5, 0.5);
 
     app.stage.addChild(richText);
   </script>
